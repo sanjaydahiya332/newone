@@ -12,7 +12,7 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: actions/checkout@v3   # Repo ka code pipeline me lana
+      uses: actions/akscluster  # Repo ka code pipeline me lana
 
     - name: Azure Login
       uses: azure/login@v1
@@ -20,7 +20,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}   # Secure login
 
     - name: Set AKS context
-      uses: azure/aks-set-context@v3
+      uses: azure/akscluster
       with:
         resource-group: akscluster_group
         cluster-name: akscluster
