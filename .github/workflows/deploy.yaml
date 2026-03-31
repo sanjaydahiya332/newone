@@ -22,8 +22,8 @@ jobs:
     - name: Set AKS context
       uses: azure/aks-set-context@v3
       with:
-        resource-group: rg-aks-demo
-        cluster-name: aks-demo
+        resource-group: akscluster_group
+        cluster-name: akscluster
 
     - name: Deploy to AKS
-      run: kubectl apply -f deployment.yaml
+      run: kubectl apply -f nginx-deployment.yaml
