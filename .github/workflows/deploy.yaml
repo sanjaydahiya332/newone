@@ -1,31 +1,29 @@
-name: Deploy to AKS
+name: Deploy to AKS   # Pipeline ka naam
 
 on:
   push:
     branches:
-      - master
+      - main         # Jab bhi main branch me code push hoga
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+  build-and-deploy:
+    runs-on: ubuntu-latest   # GitHub ka runner (Linux VM)
 
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v3
-      with:
-        version: 'v1.28.0'
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3   # Repo ka code pipeline me lana
 
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}   # Secure login
 
-    - name: Get AKS credentials
-      run: |
-        az aks get-credentials --resource-group rg-aks-centralindia-01 --name aks-centralindia-01
+    - name: Set AKS context
+      uses: azure/aks-set-context@v3
+      with:
+        resource-group: rg-aks-demo
+        cluster-name: aks-demo
 
     - name: Deploy to AKS
-      run: |
-        kubectl apply -f k8s/
+      run: kubectl apply -f deployment.yaml
